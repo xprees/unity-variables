@@ -1,0 +1,18 @@
+{
+  "name": "cz.xprees.variables.editor",
+  "rootNamespace": "Xprees.Variables.Editor",
+  "references": [
+    "cz.xprees.variables"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

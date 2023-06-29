@@ -1,0 +1,22 @@
+﻿{
+  "name": "cz.xprees.variables",
+  "version": "1.0.0",
+  "displayName": "Variables",
+  "description": "This package contains a system for creating variables based on ScriptableObjects in Editor.",
+  "unity": "2021.3",
+  "unityRelease": "16f1",
+  "licensesUrl": "http://www.wtfpl.net/txt/copying/",
+  "category": "Core",
+  "dependencies": {
+    "cz.xprees.core": "1.0.0"
+  },
+  "keywords": [
+    "variables",
+    "ScriptableObjects"
+  ],
+  "author": {
+    "name": "xprees",
+    "email": "xprees.developer@gmail.com",
+    "url": "https://github.com/xprees"
+  }
+}

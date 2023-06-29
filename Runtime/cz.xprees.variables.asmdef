@@ -1,0 +1,16 @@
+{
+  "name": "cz.xprees.variables",
+  "rootNamespace": "Xprees.Variables",
+  "references": [
+    "cz.xprees.core"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
