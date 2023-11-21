@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using Xprees.Core;
 
 namespace Xprees.Variables.Base
@@ -22,8 +23,19 @@ namespace Xprees.Variables.Base
     public class VariableBaseSO<T> : VariableBaseSO
     {
         [SerializeField] protected T defaultValue;
+        [SerializeField] private T currentValue;
 
-        [field: SerializeField] public virtual T CurrentValue { get; set; }
+        public virtual T CurrentValue
+        {
+            get => currentValue;
+            set
+            {
+                currentValue = value;
+                onValueChanged?.Invoke(value);
+            }
+        }
+
+        public UnityAction<T> onValueChanged;
 
         public void SetValue(T value) => CurrentValue = value;
 

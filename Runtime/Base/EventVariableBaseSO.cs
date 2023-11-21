@@ -1,7 +1,9 @@
-﻿using UnityEngine.Events;
+﻿using System;
+using UnityEngine.Events;
 
 namespace Xprees.Variables.Base
 {
+    [Obsolete]
     public class EventVariableBaseSO<T> : VariableBaseSO<T>
     {
         public UnityAction onValueChanged;
