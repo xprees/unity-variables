@@ -3,6 +3,7 @@
 // ------------------------------------------------------------------------------------------------------
 
 using System;
+using UnityEngine.Events;
 using Xprees.Core;
 
 namespace Xprees.Variables.Base
@@ -16,9 +17,10 @@ namespace Xprees.Variables.Base
         public T inlinedValue;
         public VariableBaseSO<T> variable;
 
+        public UnityAction<T> onValueChanged = delegate { };
+
         public ReferenceBase()
-        {
-        }
+        { }
 
         public ReferenceBase(T value)
         {
@@ -35,10 +37,12 @@ namespace Xprees.Variables.Base
                 if (useInlined)
                 {
                     inlinedValue = value;
+                    onValueChanged?.Invoke(value);
                     return;
                 }
 
                 variable.SetValue(value);
+                onValueChanged?.Invoke(value); // ignores that variable has its own onValueChanged
             }
         }
 
