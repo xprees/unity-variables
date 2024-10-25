@@ -28,3 +28,5 @@ jobs:
         with:
           token: ${{ secrets.NPM_AUTH_TOKEN }}
           access: public
+          ignore-scripts: true
+
