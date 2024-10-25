@@ -23,6 +23,7 @@
     "url": "https://github.com/xprees/unity-variables/issues"
   },
   "repository": {
-    "url": "https://github.com/xprees/unity-variables"
+    "type": "git",
+    "url": "https://github.com/xprees/unity-variables.git"
   }
 }
