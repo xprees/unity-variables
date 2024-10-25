@@ -7,7 +7,7 @@
   "license": "MIT",
   "category": "Core",
   "dependencies": {
-    "cz.xprees.core": "1.0.0"
+    "cz.xprees.core": "^1.0.0"
   },
   "keywords": [
     "Unity",
