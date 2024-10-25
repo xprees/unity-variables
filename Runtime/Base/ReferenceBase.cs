@@ -1,4 +1,4 @@
-﻿// ------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------
 // Heavily inspired by Ryan Hipple, 10/04/17 from Unite 2017 - Game Architecture with Scriptable Objects
 // ------------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ namespace Xprees.Variables.Base
         public UnityAction<T> onValueChanged = delegate { };
 
         public ReferenceBase()
-        { }
+        {
+        }
 
         public ReferenceBase(T value)
         {

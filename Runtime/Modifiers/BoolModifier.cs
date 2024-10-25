@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Xprees.Variables.Base;
 
 namespace Xprees.Variables.Modifiers
