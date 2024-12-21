@@ -7,7 +7,8 @@
   "license": "MIT",
   "category": "Core",
   "dependencies": {
-    "cz.xprees.core": "1.0.31"
+    "cz.xprees.core": "1.0.31",
+    "com.dbrizov.naughtyattributes": "2.1.4"
   },
   "keywords": [
     "Unity",
