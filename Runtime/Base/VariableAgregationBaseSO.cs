@@ -21,5 +21,16 @@ namespace Xprees.Variables.Base
         }
 
         protected abstract T AggregateValue(VariableBaseSO<T>[] variableBases);
+
+        public override void ResetState()
+        {
+            base.ResetState();
+            if (variables == null) return;
+
+            foreach (var variable in variables)
+            {
+                variable?.ResetState();
+            }
+        }
     }
 }

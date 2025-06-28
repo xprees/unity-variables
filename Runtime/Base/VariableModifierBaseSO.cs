@@ -15,6 +15,7 @@ namespace Xprees.Variables.Base
         private void OnEnable()
         {
             hideFlags = HideFlags.DontUnloadUnusedAsset;
+            disableWrite?.BackupStartState();
             ResetState();
         }
 
@@ -29,5 +30,12 @@ namespace Xprees.Variables.Base
         }
 
         protected abstract T ModifyValue(T value);
+
+        public override void ResetState()
+        {
+            base.ResetState();
+            variable?.ResetState();
+            disableWrite?.ResetState();
+        }
     }
 }

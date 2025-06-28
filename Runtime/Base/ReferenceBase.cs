@@ -49,6 +49,13 @@ namespace Xprees.Variables.Base
 
         public static implicit operator T(ReferenceBase<T> reference) => reference != null ? reference.Value : default;
 
+        public virtual void BackupStartState()
+        {
+            if (!useInlined) return; // Variables does that by themselves
+
+            _defaultInlinedValue = inlinedValue;
+        }
+
         public virtual void ResetState()
         {
             if (useInlined)
@@ -57,7 +64,7 @@ namespace Xprees.Variables.Base
                 return;
             }
 
-            variable.ResetState();
+            variable?.ResetState();
         }
     }
 }
