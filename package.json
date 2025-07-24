@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "unity": "2021.3",
   "description": "This package contains a system for creating variables based on ScriptableObjects in Editor.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "category": "Core",
   "dependencies": {
     "cz.xprees.core": "1.0.32",
