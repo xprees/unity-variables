@@ -32,8 +32,9 @@ namespace Xprees.Variables.Base
         [SerializeField] private T currentValue;
 
         [Header("Settings")]
-        [Tooltip(
-            "If true, the variable will not be reset on plain ResetState call. It will be reset only on OnEnable. Useful for game-system variables.")]
+        [Tooltip("If true, the variable will not be reset when calling ResetState()."
+                 + " However, it will still be reset on OnEnable and when ForceResetState() is called. "
+                 + "Useful for game-system variables where runtime value should persist unless explicitly reset.")]
         [SerializeField] protected bool protectedDontReset = false;
 
         public virtual T CurrentValue
