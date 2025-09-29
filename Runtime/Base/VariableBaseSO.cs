@@ -9,10 +9,13 @@ namespace Xprees.Variables.Base
         private void OnEnable()
         {
             hideFlags = HideFlags.DontUnloadUnusedAsset;
-            ResetState();
+            ForceResetState();
         }
 
-        public override abstract void ResetState();
+        /// Force reset state regardless of any protection settings.
+        public abstract void ForceResetState();
+
+        public override void ResetState() => ForceResetState();
     }
 
     /// <summary>
@@ -22,8 +25,16 @@ namespace Xprees.Variables.Base
     /// <typeparam name="T">Unity Serializable</typeparam>
     public class VariableBaseSO<T> : VariableBaseSO
     {
+        [Tooltip("Value to which the variable will be reset on OnEnable or ResetState call.")]
         [SerializeField] protected T defaultValue;
+
+        [Tooltip("Current value of variable - Runtime only value.")]
         [SerializeField] private T currentValue;
+
+        [Header("Settings")]
+        [Tooltip(
+            "If true, the variable will not be reset on plain ResetState call. It will be reset only on OnEnable. Useful for game-system variables.")]
+        [SerializeField] protected bool protectedDontReset = false;
 
         public virtual T CurrentValue
         {
@@ -35,6 +46,7 @@ namespace Xprees.Variables.Base
             }
         }
 
+        /// Event invoked when CurrentValue changes.
         public UnityAction<T> onValueChanged;
 
         public void SetValue(T value) => CurrentValue = value;
@@ -44,6 +56,14 @@ namespace Xprees.Variables.Base
         public static implicit operator T(VariableBaseSO<T> variable) =>
             variable != null ? variable.CurrentValue : default;
 
-        public override void ResetState() => CurrentValue = defaultValue;
+        public override void ResetState()
+        {
+            if (protectedDontReset) return; // skip reset if protected
+
+            ForceResetState();
+        }
+
+        public override void ForceResetState() => CurrentValue = defaultValue;
+
     }
 }

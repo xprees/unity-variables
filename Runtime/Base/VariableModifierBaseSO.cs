@@ -24,7 +24,12 @@ namespace Xprees.Variables.Base
             get => ModifyValue(variable.CurrentValue);
             set
             {
-                if (disableWrite.Value) return;
+                if (disableWrite.Value)
+                {
+                    Debug.LogWarning($"Trying to set value of {name} but writing is disabled.", this);
+                    return;
+                }
+
                 variable.CurrentValue = ModifyValue(value);
             }
         }
