@@ -17,7 +17,37 @@ namespace Xprees.Variables.Base
         public T inlinedValue;
         public VariableBaseSO<T> variable;
 
-        public UnityAction<T> onValueChanged = delegate { };
+        // Internal event for inlined value changes, since VariableBaseSO already has its own onValueChanged event.
+        private UnityAction<T> _onInlinedValueChanged;
+
+        // ReSharper disable once InconsistentNaming
+        /// Event invoked when Value changes.
+        public event UnityAction<T> onValueChanged
+        {
+            add
+            {
+                var shouldRedirectToVarEvent = !useInlined && variable != null;
+                if (shouldRedirectToVarEvent)
+                {
+                    variable.onValueChanged += value;
+                    return;
+                }
+
+                _onInlinedValueChanged += value;
+            }
+
+            remove
+            {
+                var shouldRedirectToVarEvent = !useInlined && variable != null;
+                if (shouldRedirectToVarEvent)
+                {
+                    variable.onValueChanged -= value;
+                    return;
+                }
+
+                _onInlinedValueChanged -= value;
+            }
+        }
 
         public ReferenceBase()
         {
@@ -38,12 +68,12 @@ namespace Xprees.Variables.Base
                 if (useInlined)
                 {
                     inlinedValue = value;
-                    onValueChanged?.Invoke(value);
+                    _onInlinedValueChanged?.Invoke(value); // Invoke inlined value change event
                     return;
                 }
 
+                // VariableBaseSO will invoke its own onValueChanged event, so no need to invoke here.
                 variable.SetValue(value);
-                onValueChanged?.Invoke(value); // ignores that variable has its own onValueChanged
             }
         }
 
