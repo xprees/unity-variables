@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Xprees.Core;
+using Xprees.Variables.Utils;
 
 namespace Xprees.Variables.Base
 {
@@ -22,7 +23,7 @@ namespace Xprees.Variables.Base
     /// Base class for all variables ScriptableObjects.
     /// Object holds the state on runtime, but reset every time OnEnable to defaultValue.
     /// </summary>
-    /// <typeparam name="T">Unity Serializable</typeparam>
+    /// <typeparam name="T">Unity Serializable or System.Serializable</typeparam>
     public class VariableBaseSO<T> : VariableBaseSO
     {
         [Tooltip("Value to which the variable will be reset on OnEnable or ResetState call.")]
@@ -64,7 +65,6 @@ namespace Xprees.Variables.Base
             ForceResetState();
         }
 
-        public override void ForceResetState() => CurrentValue = defaultValue;
-
+        public override void ForceResetState() => CurrentValue = CloningTools.Clone(defaultValue);
     }
 }

@@ -5,9 +5,14 @@
 using System;
 using UnityEngine.Events;
 using Xprees.Core;
+using Xprees.Variables.Utils;
 
 namespace Xprees.Variables.Base
 {
+    /// <summary>
+    /// Base class for all variable references used in the game. It can either use an inlined value or reference a VariableBaseSO Scriptable Object. The Value property abstracts this choice away, so users of ReferenceBase don't have to care about it.
+    /// </summary>
+    /// <typeparam name="T">Unity Serializable</typeparam>
     [Serializable]
     public class ReferenceBase<T> : IResettable
     {
@@ -83,14 +88,14 @@ namespace Xprees.Variables.Base
         {
             if (!useInlined) return; // Variables does that by themselves
 
-            _defaultInlinedValue = inlinedValue;
+            _defaultInlinedValue = CloningTools.Clone(inlinedValue);
         }
 
         public virtual void ResetState()
         {
             if (useInlined)
             {
-                inlinedValue = _defaultInlinedValue;
+                inlinedValue = CloningTools.Clone(_defaultInlinedValue);
                 return;
             }
 
