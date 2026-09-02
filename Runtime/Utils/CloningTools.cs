@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -23,6 +23,13 @@ namespace Xprees.Variables.Utils
             // Value types can be returned directly since they are copied by value. However, we can optimize for value types that do not contain references to avoid unnecessary cloning.
             var canReturnAsIs = typeof(T).IsValueType && !RuntimeHelpers.IsReferenceOrContainsReferences<T>();
             if (canReturnAsIs) return value;
+
+            // Strings are immutable in .NET, so return directly without JsonUtility
+            if (typeof(T) == typeof(string)) return value;
+
+            // UnityEngine.Object references (ScriptableObjects, MonoBehaviours, Assets, GameObjects)
+            // are reference-assigned; we must not deep-clone or call CreateInstance during serialization.
+            if (typeof(Object).IsAssignableFrom(typeof(T)) || value is Object) return value;
 
             if (value is ICloneable cloneable) return (T) cloneable.Clone();
 
@@ -95,6 +102,9 @@ namespace Xprees.Variables.Utils
 
             // Value types are copied by value
             if (itemType.IsValueType) return item;
+
+            // Strings are immutable
+            if (item is string) return item;
 
             // ICloneable
             if (item is ICloneable cloneable) return cloneable.Clone();
