@@ -3,6 +3,7 @@
 // ------------------------------------------------------------------------------------------------------
 
 using System;
+using UnityEngine;
 using UnityEngine.Events;
 using Xprees.Core;
 using Xprees.Variables.Utils;
@@ -14,13 +15,34 @@ namespace Xprees.Variables.Base
     /// </summary>
     /// <typeparam name="T">Unity Serializable</typeparam>
     [Serializable]
-    public class ReferenceBase<T> : IResettable
+    public class ReferenceBase<T> : IResettable, ISerializationCallbackReceiver
     {
+        private bool _hasCapturedBaseline; // Used to check if baseline has been captured
         private T _defaultInlinedValue; // Used to reset state of inlined value
 
         public bool useInlined = true;
         public T inlinedValue;
         public VariableBaseSO<T> variable;
+
+        public void OnBeforeSerialize()
+        {
+        }
+
+        public void OnAfterDeserialize()
+        {
+            if (!PlayModeStateTracker.IsPlaying)
+            {
+                _defaultInlinedValue = CloningTools.Clone(inlinedValue);
+                _hasCapturedBaseline = false;
+                return;
+            }
+
+            if (!_hasCapturedBaseline)
+            {
+                _defaultInlinedValue = CloningTools.Clone(inlinedValue);
+                _hasCapturedBaseline = true;
+            }
+        }
 
         // Internal event for inlined value changes, since VariableBaseSO already has its own onValueChanged event.
         private UnityAction<T> _onInlinedValueChanged;
@@ -31,7 +53,7 @@ namespace Xprees.Variables.Base
         {
             add
             {
-                var shouldRedirectToVarEvent = !useInlined && variable != null;
+                var shouldRedirectToVarEvent = !useInlined && variable;
                 if (shouldRedirectToVarEvent)
                 {
                     variable.onValueChanged += value;
@@ -43,7 +65,7 @@ namespace Xprees.Variables.Base
 
             remove
             {
-                var shouldRedirectToVarEvent = !useInlined && variable != null;
+                var shouldRedirectToVarEvent = !useInlined && variable;
                 if (shouldRedirectToVarEvent)
                 {
                     variable.onValueChanged -= value;
@@ -63,6 +85,7 @@ namespace Xprees.Variables.Base
             useInlined = true;
             inlinedValue = value;
             _defaultInlinedValue = value;
+            _hasCapturedBaseline = true;
         }
 
         public T Value
@@ -89,6 +112,7 @@ namespace Xprees.Variables.Base
             if (!useInlined) return; // Variables does that by themselves
 
             _defaultInlinedValue = CloningTools.Clone(inlinedValue);
+            _hasCapturedBaseline = true;
         }
 
         public virtual void ResetState()
