@@ -38,9 +38,14 @@ namespace Xprees.Variables.Base
 
         public override void ResetState()
         {
-            base.ResetState();
-            variable?.ResetState();
+            if (protectedDontReset) return;
+            ForceResetState();
+        }
+
+        public override void ForceResetState()
+        {
             disableWrite?.ResetState();
+            variable?.ResetState();
         }
     }
 }

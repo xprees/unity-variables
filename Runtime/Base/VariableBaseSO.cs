@@ -43,6 +43,13 @@ namespace Xprees.Variables.Base
             get => currentValue;
             set
             {
+#if UNITY_EDITOR
+                // If not already captured in Editor capture before changing the value
+                if (PlayModeStateTracker.IsPlaying)
+                {
+                    StateSnapshotService.EnsureCaptured(this);
+                }
+#endif
                 currentValue = value;
                 onValueChanged?.Invoke(value);
             }
