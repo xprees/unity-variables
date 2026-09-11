@@ -10,12 +10,10 @@ using Xprees.Variables.Utils;
 
 namespace Xprees.Variables.Base
 {
-    /// <summary>
     /// Base class for all variable references used in the game. It can either use an inlined value or reference a VariableBaseSO Scriptable Object. The Value property abstracts this choice away, so users of ReferenceBase don't have to care about it.
-    /// </summary>
     /// <typeparam name="T">Unity Serializable</typeparam>
     [Serializable]
-    public class ReferenceBase<T> : IResettable, ISerializationCallbackReceiver
+    public class ReferenceBase<T> : ISerializationCallbackReceiver
     {
         private bool _hasCapturedBaseline; // Used to check if baseline has been captured
         private T _defaultInlinedValue; // Used to reset state of inlined value
@@ -107,23 +105,14 @@ namespace Xprees.Variables.Base
 
         public static implicit operator T(ReferenceBase<T> reference) => reference != null ? reference.Value : default;
 
-        public virtual void BackupStartState()
-        {
-            if (!useInlined) return; // Variables does that by themselves
-
-            _defaultInlinedValue = CloningTools.Clone(inlinedValue);
-            _hasCapturedBaseline = true;
-        }
-
-        public virtual void ResetState()
+        /// Resets the inlined value to its baseline value captured at deserialization/initialization.
+        /// If this reference points to a VariableBaseSO, it does nothing (the shared variable state is managed by StateSnapshotService).
+        public virtual void ResetToDefault()
         {
             if (useInlined)
             {
                 inlinedValue = CloningTools.Clone(_defaultInlinedValue);
-                return;
             }
-
-            variable?.ResetState();
         }
     }
 }

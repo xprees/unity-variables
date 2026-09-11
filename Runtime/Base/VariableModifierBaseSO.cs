@@ -12,13 +12,6 @@ namespace Xprees.Variables.Base
         [Space]
         [SerializeField] private BoolReference disableWrite = new(true);
 
-        private void OnEnable()
-        {
-            hideFlags = HideFlags.DontUnloadUnusedAsset;
-            disableWrite?.BackupStartState();
-            ResetState();
-        }
-
         public override T CurrentValue
         {
             get => ModifyValue(variable.CurrentValue);
@@ -36,16 +29,14 @@ namespace Xprees.Variables.Base
 
         protected abstract T ModifyValue(T value);
 
-        public override void ResetState()
+        public override void ResetToDefault()
         {
-            if (protectedDontReset) return;
-            ForceResetState();
+            // Modifiers do not hold independent state; state is owned by the wrapped variable.
         }
 
-        public override void ForceResetState()
+        public override void ClearTransientState()
         {
-            disableWrite?.ResetState();
-            variable?.ResetState();
+            // Modifiers do not hold independent state; state is owned by the wrapped variable.
         }
     }
 }

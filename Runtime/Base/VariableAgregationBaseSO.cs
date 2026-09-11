@@ -8,12 +8,6 @@ namespace Xprees.Variables.Base
         [Tooltip("Aggregated variables.")]
         [SerializeField] protected VariableBaseSO<T>[] variables;
 
-        private void OnEnable()
-        {
-            hideFlags = HideFlags.DontUnloadUnusedAsset;
-            ResetState();
-        }
-
         public override T CurrentValue
         {
             get => AggregateValue(variables);
@@ -22,15 +16,14 @@ namespace Xprees.Variables.Base
 
         protected abstract T AggregateValue(VariableBaseSO<T>[] variableBases);
 
-        public override void ResetState()
+        public override void ResetToDefault()
         {
-            base.ResetState();
-            if (variables == null) return;
+            // Aggregations do not hold independent state; values are computed dynamically.
+        }
 
-            foreach (var variable in variables)
-            {
-                variable?.ResetState();
-            }
+        public override void ClearTransientState()
+        {
+            // Aggregations do not hold independent state; values are computed dynamically.
         }
     }
 }
