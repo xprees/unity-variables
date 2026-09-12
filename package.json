@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "category": "Core",
   "dependencies": {
-    "cz.xprees.core": "1.0.40",
+    "cz.xprees.core": "2.0.41",
     "com.dbrizov.naughtyattributes": "2.1.4"
   },
   "keywords": [
