@@ -10,8 +10,11 @@ namespace Xprees.Variables.Base
         protected virtual void OnEnable()
         {
             hideFlags = HideFlags.DontUnloadUnusedAsset;
-            ResetToDefault();
+            InitializeValue();
         }
+
+        /// Initializes the runtime value when the asset is loaded. Defaults to the authored default value.
+        protected virtual void InitializeValue() => ResetToDefault();
 
         /// Resets the variable to its authored default value.
         public abstract void ResetToDefault();
@@ -28,7 +31,7 @@ namespace Xprees.Variables.Base
         [SerializeField] protected T defaultValue;
 
         [Tooltip("Current value of variable - Runtime only value. Replaced with default value on OnEnable/PlayMode start.")]
-        [SerializeField] private T currentValue;
+        [SerializeField] protected T currentValue;
 
 #if UNITY_EDITOR
         protected virtual void OnValidate()
